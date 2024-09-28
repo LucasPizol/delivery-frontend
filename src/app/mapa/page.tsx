@@ -23,7 +23,6 @@ import {
 import { OrderDetails } from "@/components/order-details";
 
 export default function Page() {
-
   const [selectedOrder, setSelectedOrder] = useState<OrderModel>();
 
   const { data: orders } = useFetch({
