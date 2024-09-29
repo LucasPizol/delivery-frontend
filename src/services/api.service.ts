@@ -7,6 +7,8 @@ const urlSelect = () => {
     const ref = window.location.href;
 
     if (ref.includes("localhost")) return "http://localhost:3000";
+    else if (ref.includes("vercel.app")) return "https://delivery-api-v2.onrender.com";
+
     if (localhost) return "http://localhost:3000";
     return "http://localhost:3000";
   }
