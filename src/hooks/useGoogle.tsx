@@ -1,9 +1,4 @@
-import { userService } from "@/services/user.service";
-import { useFetch } from "./useFetch";
-import { useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import React, { createContext } from "react";
-import { RegisterUserModel, UserModel } from "@/interfaces/User";
 import { useJsApiLoader } from "@react-google-maps/api";
 
 interface ContextProps {

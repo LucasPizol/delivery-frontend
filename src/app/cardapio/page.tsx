@@ -1,15 +1,9 @@
 "use client";
 
-import { MenuPDF } from "@/components/generate-pdf/menu";
-import { OrderCard } from "@/components/order-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useFetch } from "@/hooks/useFetch";
-import { orderService } from "@/services/order.service";
 import { productService } from "@/services/product.service";
-import { pdf } from "@react-pdf/renderer";
-import Image from "next/image";
 
 export default function Component() {
   const { data } = useFetch({
@@ -18,20 +12,8 @@ export default function Component() {
     staleTime: 4 * 60 * 1000,
   });
 
-  const handleGeneratePdf = async () => {
-    try {
-      const file = await pdf(<MenuPDF products={data} />).toBlob();
-      const url = URL.createObjectURL(file);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "menu.pdf";
-      a.click();
-    } catch (error) {}
-  };
-
   return (
     <div className="flex justify-start gap-8 flex-wrap flex-col items-start">
-      <Button onClick={handleGeneratePdf}>Baixar PDF</Button>
       <div className="flex items-stretch justify-start gap-8 flex-wrap flex-col">
         {data &&
           data
