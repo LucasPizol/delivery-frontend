@@ -1,36 +1,14 @@
-import React, { createContext } from "react";
-import { useJsApiLoader } from "@react-google-maps/api";
+import React from "react";
+import { Libraries, useJsApiLoader } from "@react-google-maps/api";
 
-interface ContextProps {
-  isLoaded: boolean;
-}
-
-const GoogleContext = createContext<ContextProps>(null as any);
+const libraries = ["places"] as Libraries;
 
 export const GoogleProvider = ({ children }: { children: React.ReactNode }) => {
-  const { isLoaded } = useJsApiLoader({
+  useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyBIQCMREEdBU8sYNPegNX6sYsfvNYCWgXY",
-    libraries: ["places"],
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "",
+    libraries,
   });
 
-  return (
-    <GoogleContext.Provider
-      value={{
-        isLoaded,
-      }}
-    >
-      {children}
-    </GoogleContext.Provider>
-  );
-};
-
-export const useGoogle = () => {
-  const context = React.useContext(GoogleContext);
-
-  if (!context) {
-    throw new Error("useGoogle must be used within an AuthProvider");
-  }
-
-  return context;
+  return children;
 };
