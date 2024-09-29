@@ -30,7 +30,7 @@ export default function Home() {
         </div>
         <AddOrderDialog />
       </div>
-      <div className="flex items-stretch justify-start gap-8 flex-wrap">
+      <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 flex items-start justify-start flex-wrap">
         {data &&
           data.map((order) => (
             <OrderCard order={order} setSelectedOrder={setSelectedOrder} />

@@ -69,7 +69,7 @@ export const OrderCard = ({ order, setSelectedOrder }: OrderProps) => {
           </Badge>
         </CardDescription>
       </CardHeader>
-      <CardFooter className="flex items-center justify-between gap-4">
+      <CardFooter className="flex items-center justify-between gap-4 flex-wrap">
         <Select
           defaultValue={order.status}
           onValueChange={(value) => {

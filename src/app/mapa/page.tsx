@@ -21,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { OrderDetails } from "@/components/order-details";
+import { motorCurierService } from "@/services/motor-curier.service";
 
 export default function Page() {
   const [selectedOrder, setSelectedOrder] = useState<OrderModel>();
@@ -30,6 +31,13 @@ export default function Page() {
     queryFn: orderService.getCompanyOrders,
     retry: 0,
     refetchOnWindowFocus: true,
+  });
+
+  const { data: motorCuriers } = useFetch({
+    queryKey: ["motor-curiers"],
+    queryFn: motorCurierService.getMotorCuriers,
+    retry: 0,
+    staleTime: 1000 * 60 * 5,
   });
 
   const [filters, setFilters] = useState<{
@@ -147,10 +155,6 @@ export default function Page() {
           height: "100%",
         }}
         zoom={13}
-        center={{
-          lat: -21.813658,
-          lng: -46.546944,
-        }}
         options={{
           mapTypeControl: false,
           streetViewControl: false,
@@ -167,6 +171,16 @@ export default function Page() {
             icon={marker}
             onClick={() => {
               setSelectedOrder(orders?.find((order) => order.id === id));
+            }}
+          />
+        ))}
+
+        {motorCuriers?.map((motorCurier) => (
+          <Marker
+            key={motorCurier.id}
+            position={{
+              lat: Number(motorCurier.lat),
+              lng: Number(motorCurier.lng),
             }}
           />
         ))}

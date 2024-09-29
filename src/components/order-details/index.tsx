@@ -45,7 +45,7 @@ export const OrderDetails = ({ order, setOrder }: OrderDetailsProps) => {
           <SheetDescription>{order?.address ?? ""}</SheetDescription>
           <Separator className="mt-4 mb-4" />
 
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start flex-col gap-2">
             {data?.map((orderProduct) => (
               <Alert className="max-w-md grow">
                 <div className="flex items-center justify-between">
@@ -63,7 +63,7 @@ export const OrderDetails = ({ order, setOrder }: OrderDetailsProps) => {
                   </AlertTitle>
                 </div>
 
-                <Separator />
+                <Separator className="mt-4 mb-4" />
 
                 <AlertDescription>
                   Total:{" "}

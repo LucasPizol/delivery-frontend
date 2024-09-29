@@ -81,12 +81,12 @@ export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
                 Produtos
               </Link>
               <Link
-                href="/clientes"
+                href="/motoqueiros"
                 className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary
-                  ${path === "/clientes" ? "bg-muted" : ""}`}
+                  ${path === "/motoqueiros" ? "bg-muted" : ""}`}
               >
                 <Users className="h-4 w-4" />
-                Clientes
+                Motoqueiros
               </Link>
               <Link
                 href="/dashboard"
@@ -147,14 +147,6 @@ export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
                 >
                   <Package className="h-4 w-4" />
                   Produtos
-                </Link>
-                <Link
-                  href="/clientes"
-                  className={`flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary
-                  ${path === "/clientes" ? "bg-muted" : ""}`}
-                >
-                  <Users className="h-4 w-4" />
-                  Clientes
                 </Link>
                 <Link
                   href="/dashboard"

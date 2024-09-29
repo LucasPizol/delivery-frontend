@@ -1,9 +1,11 @@
 import { userService } from "@/services/user.service";
 import { useFetch } from "./useFetch";
-import { useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { createContext } from "react";
+import React, { createContext, useEffect } from "react";
 import { RegisterUserModel, UserModel } from "@/interfaces/User";
+import { consumer } from "@/services/action_cable.service";
+import { MotorCurierModel } from "@/interfaces/MotorCurier";
 
 interface ContextProps {
   user: UserModel | null;
@@ -26,12 +28,48 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     retry: 1,
   });
 
+  useEffect(() => {
+    if (data) {
+      consumer.subscriptions.create(
+        {
+          channel: "MotorcurierPositionChannel",
+          id: data.company_id,
+        },
+        {
+          connected() {
+            console.log("Connected to MotorcurierPositionChannel");
+          },
+          disconnected() {
+            console.log("Disconnected from MotorcurierPositionChannel");
+          },
+          received(data: MotorCurierModel) {
+            const getMotorCuriers = queryClient.getQueryData([
+              "motor-curiers",
+            ]) as MotorCurierModel[];
+
+            if (getMotorCuriers) {
+              queryClient.setQueryData(
+                ["motor-curiers"],
+                [
+                  ...getMotorCuriers.filter(
+                    (motorCurier) => motorCurier.id !== data.id
+                  ),
+                  data,
+                ]
+              );
+            }
+          },
+        }
+      );
+    }
+  }, [data]);
+
   const logout = async () => {
     userService.logout();
     queryClient.removeQueries({
       queryKey: ["current_user"],
     });
-    refetch()
+    refetch();
     router.push("/");
   };
 
@@ -42,9 +80,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     );
     localStorage.setItem("token", token);
     queryClient.setQueryData(["current_user"], user);
-    refetch()
+    refetch();
     router.push("/pedidos");
-
   };
 
   const register = async (data: RegisterUserModel) => {
@@ -58,7 +95,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     localStorage.setItem("token", token);
     queryClient.setQueryData(["current_user"], user);
-    refetch()
+    refetch();
     router.push("/pedidos");
   };
 
